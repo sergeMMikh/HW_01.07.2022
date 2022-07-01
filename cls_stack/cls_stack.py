@@ -1,5 +1,11 @@
 class Stack:
 
+    balanced_dic = {
+        '(':')',
+        '[':']',
+        '{':'}'
+    }
+
     def __init__(self, sample: str):
         self.stack_list = list(sample)
 
@@ -34,8 +40,35 @@ class Stack:
         half_stack = int(len(self.stack_list)) / 2
         print(f'half_stack = {half_stack}')
 
-        for idx in range(0, int(half_stack)):
-            if self.stack_list[idx] != self.stack_list[len(self.stack_list)-1 - idx]:
-                print(f'{self.stack_list[idx]} != {self.stack_list[len(self.stack_list)-1 - idx]}')
-                return 'Unbalanced'
+        tmp_list = []
+        counter = 0
+        cursor = 0
+
+        for cursor in range(0, len(self.stack_list)):
+            if self.stack_list[counter] in self.balanced_dic.keys():
+                tmp_list.append(self.stack_list[counter])
+                cursor += 1
+                counter += 1
+            else:
+                if counter > 0:
+                    for i in reversed(tmp_list):
+                        print(f'{self.stack_list[cursor]}  :  {self.balanced_dic.get(i)}')
+                        if self.stack_list[cursor] == self.balanced_dic.get(i):
+                            cursor += 1
+                            counter -= 1
+                            tmp_list.pop()
+                        else:
+                            return 'Unbalanced'
+                else:
+                    return 'Unbalanced'
+
+
+
+
+
+
+        # for idx in range(0, int(half_stack)):
+        #     if self.balanced_dic.get(self.stack_list[idx]) != self.stack_list[len(self.stack_list)-1 - idx]:
+        #         print(f'{self.stack_list[idx]} != {self.stack_list[len(self.stack_list)-1 - idx]}')
+        #         return 'Unbalanced'
         return 'Balanced'
