@@ -18,10 +18,14 @@ class Stack:
         self.stack_list.append(item)
 
     def pop(self):
-        return self.stack_list.pop()
+        self.stack_list.pop()
+        return self.peek()
 
     def peek(self):
-        return self.stack_list[len(self.stack_list) - 1]
+        if not self.isEmpty():
+            return self.stack_list[len(self.stack_list) - 1]
+        else:
+            return None
 
     def size(self):
         return len(self.stack_list)
