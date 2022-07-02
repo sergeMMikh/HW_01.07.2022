@@ -1,13 +1,15 @@
 class Stack:
-
     balanced_dic = {
-        '(':')',
-        '[':']',
-        '{':'}'
+        '(': ')',
+        '[': ']',
+        '{': '}'
     }
 
-    def __init__(self, sample: str):
-        self.stack_list = list(sample)
+    def __init__(self):
+        self.stack_list = []
+
+    def clean(self):
+        self.stack_list.clear()
 
     def isEmpty(self):
         return self.stack_list == []
@@ -24,51 +26,25 @@ class Stack:
     def size(self):
         return len(self.stack_list)
 
-    def isBalanced(self, sample_stack: list):
-        half_stack = len(sample_stack) / 2
+    def is_balanced(self, sample: str):
 
-        for idx in range(0, half_stack):
-            if sample_stack[idx] != sample_stack[len(sample_stack) - idx]:
-                return 'Unbalanced'
-        return 'Balanced'
+        sample_list = list(sample)
 
-    def isBalanced(self):
+        if not self.isEmpty():
+            self.clean()
 
         if len(self.stack_list) % 2 != 0:
-            return 'Unbalanced'
+            return 'unbalanced'
 
-        half_stack = int(len(self.stack_list)) / 2
-        print(f'half_stack = {half_stack}')
-
-        tmp_list = []
-        counter = 0
-        cursor = 0
-
-        for cursor in range(0, len(self.stack_list)):
-            if self.stack_list[counter] in self.balanced_dic.keys():
-                tmp_list.append(self.stack_list[counter])
-                cursor += 1
-                counter += 1
+        for item in sample_list:
+            if item in self.balanced_dic.keys():
+                self.push(item)
             else:
-                if counter > 0:
-                    for i in reversed(tmp_list):
-                        print(f'{self.stack_list[cursor]}  :  {self.balanced_dic.get(i)}')
-                        if self.stack_list[cursor] == self.balanced_dic.get(i):
-                            cursor += 1
-                            counter -= 1
-                            tmp_list.pop()
-                        else:
-                            return 'Unbalanced'
+                if self.isEmpty():
+                    return 'unbalanced'
+                if item != self.balanced_dic.get(self.peek()):
+                    return 'unbalanced'
                 else:
-                    return 'Unbalanced'
+                    self.pop()
 
-
-
-
-
-
-        # for idx in range(0, int(half_stack)):
-        #     if self.balanced_dic.get(self.stack_list[idx]) != self.stack_list[len(self.stack_list)-1 - idx]:
-        #         print(f'{self.stack_list[idx]} != {self.stack_list[len(self.stack_list)-1 - idx]}')
-        #         return 'Unbalanced'
-        return 'Balanced'
+        return 'balanced'
